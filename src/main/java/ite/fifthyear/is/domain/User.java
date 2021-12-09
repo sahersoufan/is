@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity @EnableAutoConfiguration
@@ -25,4 +26,8 @@ public class User {
     private String password;
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
+
+    @OneToMany(fetch = LAZY)
+    private Collection<UserPasswords> userPasswords = new ArrayList<>();
+
 }

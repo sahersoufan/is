@@ -1,6 +1,7 @@
 package ite.fifthyear.is.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,6 +23,8 @@ public class TemplatesController {
         return "user.html";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/changePassword")
+    public String changePasswordPage(){return "changePassword.html";}
 
 
 }

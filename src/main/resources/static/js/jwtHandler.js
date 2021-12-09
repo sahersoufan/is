@@ -1,3 +1,4 @@
+/*
 
 function login(req) {
 
@@ -14,6 +15,7 @@ function login(req) {
         location.reload();
     });
 }
+/!*
 function checkExpire() {
     const checkReq = new Request('http://localhost:8080/api/checkExpire',{method:'GET'});
     fetch(checkReq).then(function (response) {
@@ -30,8 +32,8 @@ function checkExpire() {
         }
     })
 
-}
-/*
+}*!/
+/!*
 
 function checkExpire() {
     if ($.cookie('access_token') != null){
@@ -60,7 +62,7 @@ function checkExpire() {
     }else {
         document.location = 'http://localhost:8080/loginPublic'
     }
-}*/
+}*!/
 
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
@@ -93,9 +95,9 @@ function getAnotherPage(req) {
             return response.text();
         }).then(function (html) {
 // This is the HTML from our response as a text string
-/*
+/!*
             $("#Content").html(html);
-*/
+*!/
             $('body').append(html);
         }).catch(function (err) {
 // There was an error
@@ -103,6 +105,7 @@ function getAnotherPage(req) {
         });
 
 }
+*/
 
 function postAnotherPage(req) {
 
@@ -116,7 +119,6 @@ function postAnotherPage(req) {
         }).catch(function (err) {
 // There was an error
             console.log('Something went wrong.', err);
-            checkExpire();
         });
 
 }

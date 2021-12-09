@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -22,7 +24,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
+/*
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+*/
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,11 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(HttpMethod.GET,
                 "/",
-                "/loginPublic/**",
+                "/login/**",
                 "/api/checkExpire/**",
-                "/admin",
-                "/admin/register",
-                "/admin/addroletouser",
                 "/css/**",
                 "/user",
                 "/webjars/**",
@@ -81,6 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
 
     @Bean
     @Override

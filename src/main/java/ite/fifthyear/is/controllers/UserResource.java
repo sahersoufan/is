@@ -1,4 +1,4 @@
-package ite.fifthyear.is.api;
+package ite.fifthyear.is.controllers;
 
 
 import com.auth0.jwt.JWT;
@@ -63,18 +63,20 @@ public class UserResource {
         return ResponseEntity.ok().build();
     }
 
+
+/*
     @GetMapping("/token/refresh")
     public void refreshToke(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Cookie[] authCookie = request.getCookies();
-        final String[] access_token_cookie = new String[1];
+        final String[] token_cookie = new String[1];
         stream(authCookie).forEach(cookie -> {
             if (cookie.getName().equals("refresh_token")){
-                access_token_cookie[0] = cookie.getValue();
+                token_cookie[0] = cookie.getValue();
             }
         });
-        if (access_token_cookie[0] != null){
+        if (token_cookie[0] != null){
             try {
-                String refresh_token = access_token_cookie[0];
+                String refresh_token = token_cookie[0];
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
@@ -103,7 +105,7 @@ public class UserResource {
             throw new RuntimeException("Refresh token is missing");
 
         }
-    }
+    }*/
 }
 
 @Data

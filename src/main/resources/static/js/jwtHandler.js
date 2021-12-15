@@ -1,5 +1,40 @@
 
 
+function login(req) {
+
+    fetch(req).then(function (response) {
+// The API call was successful!
+        return response.json();
+    }).then(function (json){
+        if (json.succ){
+            document.location = 'http://localhost:8080/account'
+        }else{
+            throw err;
+        }
+    }).catch(function (err) {
+        location.reload();
+    });
+}
+/*
+function checkExpire() {
+    const checkReq = new Request('http://localhost:8080/api/checkExpire',{method:'GET'});
+    fetch(checkReq).then(function (response) {
+        return response.json();
+    }).then(function (json) {
+
+        if (!json.res){
+            document.location = 'http://localhost:8080/loginPublic'
+            return true;
+        }
+        if (json.res && json.reload){
+            location.reload();
+            return false;
+        }
+    })
+
+}*!/
+/!*
+
 function checkExpire() {
     if ($.cookie('access_token') != null){
     const accessToken = $.cookie('access_token');
@@ -62,7 +97,7 @@ function getAnotherPage(req) {
 // This is the HTML from our response as a text string
 /*
             $("#Content").html(html);
-*/
+
             $('body').append(html);
         }).catch(function (err) {
 // There was an error
@@ -70,7 +105,7 @@ function getAnotherPage(req) {
         });
 
 }
-
+*/
 function postAnotherPage(req) {
 
         fetch(req).then(function (response) {

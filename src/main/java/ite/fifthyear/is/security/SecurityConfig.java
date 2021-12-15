@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/js/**").permitAll();
 
         http.authorizeRequests().antMatchers( HttpMethod.GET,
-                "/easy/besy/lemone/squizy/"
+                "/api/user/**"
         ).hasAnyAuthority("ROLE_USER");
 
         http.authorizeRequests().antMatchers(

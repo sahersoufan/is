@@ -104,6 +104,24 @@ public class UserResource {
         return "Account/show";
     }
 
+    @GetMapping("/user/ShowAccount/{id}")
+    public String getSavedAccount( Model model, @PathVariable Long id){
+        model.addAttribute("Accounts", userService.getAccount(id));
+        return "Account/show";
+    }
+
+    @GetMapping("/user/EditAccount/{id}")
+    public String EditSavedAccount(Model model, @PathVariable Long id){
+        model.addAttribute("Accounts", userService.getAccount(id));
+        return "Account/EditAccount";
+    }
+
+    @PostMapping("/user/removeAccount/{id}")
+    public String removeSavedAccount(@PathVariable Long id){
+        userService.removeSavedAccount(id);
+        return "Account/Accounts";
+    }
+
 
 
 }

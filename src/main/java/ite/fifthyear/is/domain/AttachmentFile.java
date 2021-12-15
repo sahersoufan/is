@@ -19,8 +19,4 @@ public class AttachmentFile {
     private Long id;
     private String fileUri;
 
-/*    //TODO may we have a problem
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "saved_account_id")
-    private SavedAccount savedAccount;*/
 }

@@ -24,11 +24,8 @@ public class SavedAccount {
     private String password;
     private String description;
 
-    //TODO may we have a problem
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private AttachmentFile attachmentFiles;
 
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;*/
 }

@@ -1,6 +1,8 @@
 package ite.fifthyear.is;
 
+import ite.fifthyear.is.domain.AttachmentFile;
 import ite.fifthyear.is.domain.Role;
+import ite.fifthyear.is.domain.SavedAccount;
 import ite.fifthyear.is.domain.User;
 import ite.fifthyear.is.services.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -25,13 +28,16 @@ public class IsApplication {
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }*/
-    @Bean
+/*    @Bean
     CommandLineRunner run(UserService userService){
         return args -> {
             userService.saveRole(new Role(null,"ROLE_USER"));
             userService.saveRole(new Role(null,"ROLE_ADMIN"));
 
-            userService.saveUser(new User(null, "jhon jhon", "jhon", "1234",new ArrayList<>(), new ArrayList<>()));
+            SavedAccount savedAccount = new SavedAccount(null,"youtube", "saher", "password", "desc",new AttachmentFile(null,"uri"));
+            List<SavedAccount> savedAccounts = new ArrayList<>();
+            savedAccounts.add(savedAccount);
+            userService.saveUser(new User(null, "jhon jhon", "jhon", "1234",new ArrayList<>(), savedAccounts));
             userService.saveUser(new User(null, "marta marta", "marta", "1234",new ArrayList<>(), new ArrayList<>()));
             userService.saveUser(new User(null, "sali sali", "sali", "1234",new ArrayList<>(), new ArrayList<>()));
 
@@ -39,6 +45,6 @@ public class IsApplication {
             userService.addRoleToUser("marta", "ROLE_USER");
             userService.addRoleToUser("sali", "ROLE_ADMIN");
         };
-    }
+    }*/
 }
 

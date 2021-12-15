@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,7 +36,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserResource {
@@ -81,8 +82,10 @@ public class UserResource {
     }
 
 
+    ////////////////////// ACCOUNTS /////////////////////////////
+
     @PostMapping("/user/addAccount")
-    public ResponseEntity<?> addSavedAccounts(@ModelAttribute SavedAccount savedAccount){
+    public String addSavedAccounts(@ModelAttribute SavedAccount savedAccount){
 /*
         SavedAccount savedAccount = new SavedAccount(
                 null,
@@ -93,15 +96,17 @@ public class UserResource {
                 new AttachmentFile(null, "google.com")
         );
 */
+/*        SavedAccount SA = savedAccountService.getSavedAccount(savedAccount.getName());
+        savedAccount.setId(SA.getId());*/
         userService.addAccountToUser(savedAccount);
-        return ResponseEntity.ok().build();
+        return "redirect:Accounts";
     }
 
     @GetMapping("/user/Accounts")
     public String getSavedAccounts(Model model){
 
         model.addAttribute("Accounts", userService.getAccounts());
-        return "Account/show";
+        return "Account/Accounts";
     }
 
     @GetMapping("/user/ShowAccount/{id}")
@@ -112,14 +117,16 @@ public class UserResource {
 
     @GetMapping("/user/EditAccount/{id}")
     public String EditSavedAccount(Model model, @PathVariable Long id){
-        model.addAttribute("Accounts", userService.getAccount(id));
+
+        //TODO errrrrrrrrrrrrrrrror
+        model.addAttribute("Account", userService.getAccount(id));
         return "Account/EditAccount";
     }
 
-    @PostMapping("/user/removeAccount/{id}")
+    @GetMapping("/user/removeAccount/{id}")
     public String removeSavedAccount(@PathVariable Long id){
         userService.removeSavedAccount(id);
-        return "Account/Accounts";
+        return "redirect:Accounts";
     }
 
 

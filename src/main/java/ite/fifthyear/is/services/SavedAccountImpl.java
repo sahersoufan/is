@@ -45,7 +45,7 @@ public class SavedAccountImpl implements SavedAccountService {
 
     @Override
     public void deleteSavedAccount(Long id) {
-
+        savedAccountRepo.deleteById(id);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class SavedAccountImpl implements SavedAccountService {
 
     @Override
     public SavedAccount getSavedAccount(Long id) {
-        return null;
+        return savedAccountRepo.getById(id);
     }
 
 }

@@ -34,15 +34,16 @@
                     <tbody>
 
 
-                    <tr >
-                        <td />
-                        <td  />
+                    <tr th:each="Account, i: ${Accounts}">
+
+                        <td th:text="${i.count}" />
+                        <td th:text="${Account.getName()}" />
 
 
                         <td>
-                            <a href="" class="btn btn-sm btn-warning" title="show"><i class="fa fa-eye"></i></a>
-                            <a href="" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                            <a href="" class="btn btn-sm btn-danger" id="delete"><i class="fa fa-trash"></i></a>
+                            <a th:href="@{/api/user/ShowAccount/{id}(id = ${Account.getId()})}" class="btn btn-sm btn-warning" title="show"><i class="fa fa-eye"></i></a>
+                            <a th:href="@{/api/user/EditAccount/{id}(id = ${Account.getId()})}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                            <a th:href="@{/api/user/removeAccount/{id}(id = ${Account.getId()})}" class="btn btn-sm btn-danger" id="delete" ><i class="fa fa-trash"></i></a>
 
                         </td>
 

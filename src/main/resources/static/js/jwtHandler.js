@@ -7,7 +7,7 @@ function login(req) {
         return response.json();
     }).then(function (json){
         if (json.succ){
-            document.location = 'http://localhost:8080/account'
+            document.location = 'http://localhost:8080/api/user/Accounts'
         }else{
             throw err;
         }

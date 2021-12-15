@@ -157,12 +157,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void removeSavedAccount(Long id) {
+/*
+        savedAccountService.deleteSavedAccount(id);
+*/
         User user = getCurrentUser();
-        user.getSavedAccounts().forEach( SA -> {
+        List<SavedAccount> savedAccounts = (List<SavedAccount>) user.getSavedAccounts();
+        savedAccounts.remove(savedAccounts.get(Math.toIntExact(id)));
+        user.setSavedAccounts(savedAccounts);
+/*         user.getSavedAccounts().forEach( SA -> {
             if (SA.getId().equals(id)){
                 user.getSavedAccounts().remove(SA);
             }
-        });
+        });*/
+        log.info(user.getSavedAccounts().toString());
+
     }
 
     /////////////////////////////////////////////////////

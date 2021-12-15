@@ -2,10 +2,11 @@ package ite.fifthyear.is.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class testfrontcontroller {
+
+
     @GetMapping(value = "/account")
     public String viewAcountPage() {
 
@@ -16,11 +17,13 @@ public class testfrontcontroller {
 
         return "register";
     }
+
     @GetMapping(value = "/add")
     public String add() {
 
-        return "Account/AddAcount";
+        return "Account/AddAccount";
     }
+
     @GetMapping(value = "/edit")
     public String edit() {
 

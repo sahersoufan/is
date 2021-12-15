@@ -7,25 +7,23 @@ import ite.fifthyear.is.domain.SavedAccount;
 import ite.fifthyear.is.domain.User;
 import ite.fifthyear.is.domain.UserPasswords;
 import ite.fifthyear.is.repository.RoleRepo;
-import ite.fifthyear.is.repository.SavedAccountRepo;
 import ite.fifthyear.is.repository.UserPasswordsRepo;
 import ite.fifthyear.is.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service @RequiredArgsConstructor
 @Transactional @Slf4j
@@ -34,8 +32,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final UserPasswordsRepo userPasswordsRepo;
-    private final SavedAccountRepo savedAccountRepo;
-/*
+    private final SavedAccountService savedAccountService;
+    /*
     private final PasswordEncoder passwordEncoder;
 */
 
@@ -83,9 +81,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUserPassword(String currentPass, String newPass) {
         log.info("updating user password");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepo.findByUsername((String) auth.getPrincipal().toString());
-
+        User user = getCurrentUser();
         user.setPassword(newPass);
         // add oldpassword to oldpassword table
         saveOldPassword(new UserPasswords(null, currentPass));
@@ -118,6 +114,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
 
+
     //////////////// old passwords ///////////////
 
     @Override
@@ -134,17 +131,46 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     ////////////////////////////////////////////////////
 
-
+    //////////////// Accounts ////////////////////////////
     @Override
-    public void addnewAccount(String savedAccount) {
-        userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-        .getSavedAccounts().add(savedAccountRepo.findByUsername(savedAccount));
+    public void addAccountToUser(String username, String AccountName) {
 
     }
-    @Override
-    public void addnewAccount(SavedAccount savedAccount) {
-        userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-                .getSavedAccounts().add(savedAccount);
 
+    @Override
+    public void addAccountToUser(SavedAccount savedAccount) {
+        User user = getCurrentUser();
+        user.getSavedAccounts().add(savedAccount);
     }
+
+    @Override
+    public List<SavedAccount> getAccounts() {
+        User user = getCurrentUser();
+
+        return new ArrayList<>(user.getSavedAccounts());
+    }
+
+    @Override
+    public SavedAccount getAccount(Long id) {
+        return savedAccountService.getSavedAccount(id);
+    }
+
+    @Override
+    public void removeSavedAccount(Long id) {
+        User user = getCurrentUser();
+        user.getSavedAccounts().forEach( SA -> {
+            if (SA.getId().equals(id)){
+                user.getSavedAccounts().remove(SA);
+            }
+        });
+    }
+
+    /////////////////////////////////////////////////////
+
+    ///////////////// methods /////////////////
+    private User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepo.findByUsername((String) auth.getPrincipal().toString());
+    }
+    //////////////////////////////////////////
 }

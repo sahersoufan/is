@@ -10,6 +10,7 @@ import ite.fifthyear.is.domain.AttachmentFile;
 import ite.fifthyear.is.domain.Role;
 import ite.fifthyear.is.domain.SavedAccount;
 import ite.fifthyear.is.domain.User;
+import ite.fifthyear.is.services.AttachmentFileService;
 import ite.fifthyear.is.services.SavedAccountService;
 import ite.fifthyear.is.services.UserService;
 import lombok.Data;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,10 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -42,6 +41,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserResource {
     private final UserService userService;
     private final SavedAccountService savedAccountService;
+    private final AttachmentFileService attachmentFileService;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers(){
@@ -80,20 +80,48 @@ public class UserResource {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> addSavedAcounts(){
+
+    @PostMapping("/user/addAccount")
+    public ResponseEntity<?> addSavedAccounts(@ModelAttribute SavedAccount savedAccount){
+/*
         SavedAccount savedAccount = new SavedAccount(
                 null,
                 "github",
                 "sahersoufan",
                 "password",
                 "desc",
-                null
+                new AttachmentFile(null, "google.com")
         );
-        savedAccountService.saveNewAccount(savedAccount);
-        userService.addnewAccount(savedAccount.getUsername());
+*/
+        userService.addAccountToUser(savedAccount);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/user/Accounts")
+    public String getSavedAccounts(Model model){
+
+        model.addAttribute("Accounts", userService.getAccounts());
+        return "Account/show";
+    }
+
+    @GetMapping("/user/ShowAccount/{id}")
+    public String getSavedAccount( Model model, @PathVariable Long id){
+        model.addAttribute("Accounts", userService.getAccount(id));
+        return "Account/show";
+    }
+
+    @GetMapping("/user/EditAccount/{id}")
+    public String EditSavedAccount(Model model, @PathVariable Long id){
+        model.addAttribute("Accounts", userService.getAccount(id));
+        return "Account/EditAccount";
+    }
+
+    @PostMapping("/user/removeAccount/{id}")
+    public String removeSavedAccount(@PathVariable Long id){
+        userService.removeSavedAccount(id);
+        return "Account/Accounts";
+    }
+
 
 
 }

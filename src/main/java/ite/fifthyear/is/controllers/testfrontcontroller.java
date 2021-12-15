@@ -9,7 +9,7 @@ public class testfrontcontroller {
     @GetMapping(value = "/account")
     public String viewAcountPage() {
 
-        return "Account/Account";
+        return "Account/Accounts";
     }
     @GetMapping(value = "/registerfront")
     public String register() {

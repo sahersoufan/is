@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+<div class="sl-mainpanel">
+
+
+    <div class="sl-pagebody">
+        <div class="sl-page-title">
+            <h5>Account Update</h5>
+
+        </div><!-- sl-page-title -->
+
+        <div class="card pd-20 pd-sm-40">
+
+
+
+            <form action=""  method="post">
+
+
+                <div class="contact_form_text">
+                    <div class="form-group">
+                        <label >Full Name </label>
+                        <input type="text" class="form-control" aria-describedby="emailHelp"  placeholder="Enter your Name" name="name" required="">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label >Email </label>
+                        <input type="email" class="form-control " name="username"  aria-describedby="emailHelp" placeholder="Enter your Email" required="">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for=>Password</label>
+                        <input type="password"class="form-control i" name="password"  aria-describedby="emailHelp" placeholder="Enter your password" required="">
+                    </div>
+
+                    <div class="form-group">
+                        <label >Description </label>
+                        <textarea  class="form-control" name="description"  id="summernote"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label >File</label>
+                        <input type="file"  id="file" name="file" >
+
+                    </div>
+                </div>
+                <div class="contact_form_button">
+                    <button type="submit" class="btn btn-info">Save</button>
+                </div>
+            </form>
+
+
+
+
+        </div><!-- card -->
+
+
+
+
+    </div><!-- sl-mainpanel -->
+</div>
+<script src="../static/lib/medium-editor/medium-editor.js " th:src="@{/lib/medium-editor/medium-editor.js}"> </script>
+<script src="../static/lib/summernote/summernote-lite.js " th:src="@{/lib/summernote/summernote-lite.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script>
+    var editor = new MediumEditor('.editable');
+
+    $('#summernote').summernote({
+
+        tabsize: 2,
+        height: 150,
+        tooltip: false,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+
+</script>
+
+<script>
+    $(function(){
+        'use strict';
+
+        // Inline editor
+        var editor = new MediumEditor('.editable');
+        // Summernote editor
+        $('#summernote').summernote({
+
+            height: 150,
+            tooltip: false
+        })
+    });
+</script>
+</body>
+</html>

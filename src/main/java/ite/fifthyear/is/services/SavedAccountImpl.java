@@ -1,6 +1,7 @@
 package ite.fifthyear.is.services;
 
 
+import ite.fifthyear.is.domain.AttachmentFile;
 import ite.fifthyear.is.domain.SavedAccount;
 import ite.fifthyear.is.repository.SavedAccountRepo;
 import lombok.RequiredArgsConstructor;
@@ -32,22 +33,33 @@ public class SavedAccountImpl implements SavedAccountService {
     }
 
     @Override
+    public void addAttachmentFileToAccount(String AccountName, String fileUrl) {
+
+    }
+
+    @Override
+    public void addAttachmentFileToAccount(AttachmentFile attachmentFile) {
+
+    }
+
+
+    @Override
+    public void deleteSavedAccount(Long id) {
+
+    }
+
+    @Override
+    public void deleteSavedAccount(String username) {
+
+    }
+
+    @Override
     public SavedAccount getSavedAccount(String username) {
         return null;
     }
 
     @Override
     public SavedAccount getSavedAccount(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<SavedAccount> getSavedAccounts(String username) {
-        return null;
-    }
-
-    @Override
-    public List<SavedAccount> getSavedAccounts(Long id) {
         return null;
     }
 

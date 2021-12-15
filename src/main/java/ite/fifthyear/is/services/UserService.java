@@ -14,8 +14,9 @@ public interface UserService {
     User getUser(String username);
     List<User> getUsers();
 
-    void addnewAccount(String username);
-    void addnewAccount(SavedAccount savedAccount);
+    void addAccountToUser(String username, String AccountName);
+    void addAccountToUser(SavedAccount savedAccount);
+    List<SavedAccount> getAccounts();
 
     void updateUserPassword(String currentPass, String newPass);
     void addOldPasswordToUser(String username, String oldPass);

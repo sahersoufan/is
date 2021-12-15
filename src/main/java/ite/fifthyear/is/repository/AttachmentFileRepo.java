@@ -9,5 +9,4 @@ public interface AttachmentFileRepo extends JpaRepository<AttachmentFile, Long> 
     Optional<AttachmentFile> findById(Long id);
 
     AttachmentFile findByFileUri(String fileUri);
-
 }

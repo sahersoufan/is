@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final UserPasswordsRepo userPasswordsRepo;
-    private final SavedAccountRepo savedAccountRepo;
-/*
+
+    /*
     private final PasswordEncoder passwordEncoder;
 */
 
@@ -83,9 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUserPassword(String currentPass, String newPass) {
         log.info("updating user password");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepo.findByUsername((String) auth.getPrincipal().toString());
-
+        User user = getCurrentUser();
         user.setPassword(newPass);
         // add oldpassword to oldpassword table
         saveOldPassword(new UserPasswords(null, currentPass));
@@ -118,6 +116,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
 
+
     //////////////// old passwords ///////////////
 
     @Override
@@ -134,17 +133,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     ////////////////////////////////////////////////////
 
-
+    //////////////// Accounts ////////////////////////////
     @Override
-    public void addnewAccount(String savedAccount) {
-        userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-        .getSavedAccounts().add(savedAccountRepo.findByUsername(savedAccount));
+    public void addAccountToUser(String username, String AccountName) {
 
     }
-    @Override
-    public void addnewAccount(SavedAccount savedAccount) {
-        userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-                .getSavedAccounts().add(savedAccount);
 
+    @Override
+    public void addAccountToUser(SavedAccount savedAccount) {
+        User user = getCurrentUser();
+        user.getSavedAccounts().add(savedAccount);
     }
+
+    @Override
+    public List<SavedAccount> getAccounts() {
+        User user = getCurrentUser();
+
+        return new ArrayList<>(user.getSavedAccounts());
+    }
+
+    /////////////////////////////////////////////////////
+
+    ///////////////// methods /////////////////
+    private User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepo.findByUsername((String) auth.getPrincipal().toString());
+    }
+    //////////////////////////////////////////
 }

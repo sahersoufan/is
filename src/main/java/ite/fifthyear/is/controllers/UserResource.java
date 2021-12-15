@@ -6,13 +6,17 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ite.fifthyear.is.domain.AttachmentFile;
 import ite.fifthyear.is.domain.Role;
+import ite.fifthyear.is.domain.SavedAccount;
 import ite.fifthyear.is.domain.User;
+import ite.fifthyear.is.services.SavedAccountService;
 import ite.fifthyear.is.services.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,7 +41,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class UserResource {
     private final UserService userService;
-
+    private final SavedAccountService savedAccountService;
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers(){
@@ -49,6 +53,13 @@ public class UserResource {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
+
+    //TODO this's for saving user
+/*    @PostMapping("/user/save")
+    public ResponseEntity<User> saveUserNewTask(@RequestBody UserRegistrationDetail userRegistrationDetail){
+        return ResponseEntity.ok().build();
+    }*/
+
 
 
     @PostMapping("/user/role")
@@ -69,9 +80,30 @@ public class UserResource {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<?> addSavedAcounts(){
+        SavedAccount savedAccount = new SavedAccount(
+                null,
+                "github",
+                "sahersoufan",
+                "password",
+                "desc",
+                null
+        );
+        savedAccountService.saveNewAccount(savedAccount);
+        userService.addnewAccount(savedAccount.getUsername());
+        return ResponseEntity.ok().build();
+    }
+
 
 }
 
+
+@Data
+class UserRegistrationDetail {
+    private String username;
+    private String password;
+}
 @Data
 class RoleToUserForm {
 

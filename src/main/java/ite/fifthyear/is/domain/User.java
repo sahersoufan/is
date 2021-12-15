@@ -24,10 +24,11 @@ public class User {
     private String name;
     private String username;
     private String password;
+
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    @OneToMany(fetch = LAZY)
-    private Collection<UserPasswords> userPasswords = new ArrayList<>();
+    @OneToMany(fetch = LAZY, cascade = CascadeType.ALL)
+    private Collection<SavedAccount> savedAccounts = new ArrayList<>();
 
 }

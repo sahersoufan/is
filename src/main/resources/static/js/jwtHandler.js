@@ -1,4 +1,4 @@
-/*
+
 
 function login(req) {
 
@@ -15,7 +15,7 @@ function login(req) {
         location.reload();
     });
 }
-/!*
+/*
 function checkExpire() {
     const checkReq = new Request('http://localhost:8080/api/checkExpire',{method:'GET'});
     fetch(checkReq).then(function (response) {

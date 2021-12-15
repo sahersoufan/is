@@ -3,13 +3,16 @@ package ite.fifthyear.is.services;
 
 
 import ite.fifthyear.is.domain.Role;
+import ite.fifthyear.is.domain.SavedAccount;
 import ite.fifthyear.is.domain.User;
 import ite.fifthyear.is.domain.UserPasswords;
 import ite.fifthyear.is.repository.RoleRepo;
+import ite.fifthyear.is.repository.SavedAccountRepo;
 import ite.fifthyear.is.repository.UserPasswordsRepo;
 import ite.fifthyear.is.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final UserPasswordsRepo userPasswordsRepo;
+    private final SavedAccountRepo savedAccountRepo;
 /*
     private final PasswordEncoder passwordEncoder;
 */
@@ -97,7 +101,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         User user = userRepo.findByUsername((username));
         UserPasswords userPasswords = userPasswordsRepo.findByPassword(oldPass);
-        user.getUserPasswords().add(userPasswords);
     }
 
     @Override
@@ -127,5 +130,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserPasswords getOldPassword(Long id) {
         log.info("fetching old password by ID {}", id);
         return userPasswordsRepo.getById(id);
+    }
+
+    ////////////////////////////////////////////////////
+
+
+    @Override
+    public void addnewAccount(String savedAccount) {
+        userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
+        .getSavedAccounts().add(savedAccountRepo.findByUsername(savedAccount));
+
+    }
+    @Override
+    public void addnewAccount(SavedAccount savedAccount) {
+        userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
+                .getSavedAccounts().add(savedAccount);
+
     }
 }

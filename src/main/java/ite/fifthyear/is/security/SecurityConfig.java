@@ -49,6 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/",
                 "/login/**",
                 "/css/**",
+                "/styles/**",
+                "/plugins/**",
+                "/lib/**",
+
                 "/webjars/**",
                 "/js/**").permitAll();
 
